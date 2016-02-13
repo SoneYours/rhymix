@@ -750,7 +750,6 @@ class ModuleHandler extends Handler
 			$message = $oModule->getMessage();
 			$messageType = $oModule->getMessageType();
 			$redirectUrl = $oModule->getRedirectUrl();
-			if($messageType == 'error') debugPrint($message, 'ERROR');
 
 			if(!$procResult)
 			{
@@ -885,9 +884,6 @@ class ModuleHandler extends Handler
 
 			if($_SESSION['XE_VALIDATOR_RETURN_URL'])
 			{
-				$display_handler = new DisplayHandler();
-				$display_handler->_debugOutput();
-
 				Context::getInstance()->checkSessionStatus();
 				header('location:' . $_SESSION['XE_VALIDATOR_RETURN_URL']);
 				return;
@@ -1066,12 +1062,6 @@ class ModuleHandler extends Handler
 	 * */
 	public static function getModuleInstance($module, $type = 'view', $kind = '')
 	{
-
-		if(__DEBUG__ == 3)
-		{
-			$start_time = microtime(true);
-		}
-
 		$parent_module = $module;
 		$kind = strtolower($kind);
 		$type = strtolower($type);
@@ -1133,11 +1123,6 @@ class ModuleHandler extends Handler
 
 			// Store the created instance into GLOBALS variable
 			$GLOBALS['_loaded_module'][$module][$type][$kind] = $oModule;
-		}
-
-		if(__DEBUG__ == 3)
-		{
-			$GLOBALS['__elapsed_class_load__'] += microtime(true) - $start_time;
 		}
 
 		// return the instance
